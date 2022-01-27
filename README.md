@@ -10,6 +10,8 @@
 $ go install github.com/kemorels/gitignore
 ```
 
+Or download the pre-builded binaries for your OS and architecture of choice in the release section.
+
 
 # Usage
 ### Print gitignore template
