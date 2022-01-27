@@ -45,6 +45,8 @@ func run() {
 		listTemplates()
 	case len(os.Args[1:]) == 2:
 		dumpTemplate(os.Args[2], out)
+	case len(os.Args[1:]) == 1:
+		dumpTemplate(os.Args[1], false)
 	default:
 		flag.Usage()
 	}
