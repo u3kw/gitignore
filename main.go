@@ -40,13 +40,28 @@ func run() {
 		flag.Usage()
 	}
 
+
+	var outfile = os.Stdout
+	var err error
+
+
 	switch {
 	case list:
 		listTemplates()
 	case len(os.Args[1:]) == 2:
-		dumpTemplate(os.Args[2], out)
+		if out {
+			outfile, err = os.Create(".gitignore")
+			if err != nil {
+				fmt.Printf("fail creating .gitignore file: %v",
+						   err)
+				os.Exit(1)
+			}
+			defer outfile.Close()
+		}
+
+		dumpTemplate(os.Args[2], outfile)
 	case len(os.Args[1:]) == 1:
-		dumpTemplate(os.Args[1], false)
+		dumpTemplate(os.Args[1], outfile)
 	default:
 		flag.Usage()
 	}

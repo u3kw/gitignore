@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
+	"io"
 	"sort"
 )
 
@@ -34,15 +34,12 @@ func listTemplates() {
 	}
 }
 
-// dumpTemplate prints to stdout the language gitignore template defined by `key`
-func dumpTemplate(key string, save bool) {
-	if save {
-		err := os.WriteFile(".gitignore", []byte(gitignoreTemplates[key].template), 0666)
-		if err != nil {
-			fmt.Printf("write failed: %v\n", err)
-			flag.Usage()
-		}
-		os.Exit(0)
+// dumpTemplate write to w the language gitignore template defined by `key`
+func dumpTemplate(key string, w io.Writer) {
+	_, err := io.WriteString(w, gitignoreTemplates[key].template)
+	if err != nil {
+		fmt.Printf("write failed: %v\n", err)
+		flag.Usage()
 	}
-	fmt.Println(gitignoreTemplates[key].template)
+
 }
